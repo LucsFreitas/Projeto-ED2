@@ -1,0 +1,22 @@
+﻿Compilação de 15/11/2016 17:13:18 iniciada.
+     1>Projeto "c:\Users\lucas\documents\visual studio 2012\Projects\Projeto ED2\Projeto ED2.vcxproj" no nó 2 (Build destino(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TC /analyze- /errorReport:prompt BubbleSort.c
+         BubbleSort.c
+     1>c:\users\lucas\documents\visual studio 2012\projects\projeto ed2\bubblesort.c(51): warning C4129: 'O' : sequência de escape de caractere não reconhecida
+     1>c:\users\lucas\documents\visual studio 2012\projects\projeto ed2\bubblesort.c(55): warning C4129: 'O' : sequência de escape de caractere não reconhecida
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"c:\users\lucas\documents\visual studio 2012\Projects\Projeto ED2\Debug\Projeto ED2.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"c:\users\lucas\documents\visual studio 2012\Projects\Projeto ED2\Debug\Projeto ED2.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"c:\users\lucas\documents\visual studio 2012\Projects\Projeto ED2\Debug\Projeto ED2.lib" /MACHINE:X86 Debug\ArvoreAVL.obj
+         Debug\ArvoreBin.obj
+         Debug\BubbleSort.obj
+         Debug\Comum.obj
+         Debug\HeapSort.obj
+         Debug\Main.obj
+         Debug\MergeSort.obj
+         Debug\QuickSort.obj
+         Projeto ED2.vcxproj -> c:\users\lucas\documents\visual studio 2012\Projects\Projeto ED2\Debug\Projeto ED2.exe
+     1>Projeto de compilação pronto "c:\Users\lucas\documents\visual studio 2012\Projects\Projeto ED2\Projeto ED2.vcxproj" (Build destino(s)).
+
+Compilação com êxito.
+
+Tempo Decorrido 00:00:00.38

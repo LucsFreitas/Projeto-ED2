@@ -1,0 +1,1 @@
+int criarVetor(int vet[], int qtd);
