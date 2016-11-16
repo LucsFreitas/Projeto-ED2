@@ -7,7 +7,7 @@
 #include "QuickSort.h"
 
 int main(){
-	mainBubbleSort();
+	mainArvBin();
 
 	return 0;
 }

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <windows.h>
 #include "comum.h"
 
 int criarVetor(int vet[], int qtd){
@@ -15,4 +16,10 @@ int criarVetor(int vet[], int qtd){
 
 	// O retorno e a qtd de valores adicionados
 	return i;
+}
+
+void gotoxy(int coluna, int linha){
+        COORD point;
+        point.X = coluna; point.Y = linha;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), point);
 }

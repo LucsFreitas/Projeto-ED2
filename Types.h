@@ -4,7 +4,7 @@
 #define TRUE 1
 #define FALSE 0
 
-//	Queue + ArvBin
+//	Queue + Stacks + ArvBin
 typedef struct no {
 	struct no *esq;
 	char info;
@@ -22,6 +22,12 @@ typedef struct descritorArvBin {
 
 typedef DescritorArvBin * QueueArvBin;
 
+typedef struct noPilhaArvBin {
+	TNo * info;
+	struct noPilhaArvBin * prox;
+} NoPilhaArvBin;
+
+typedef NoPilhaArvBin * StackArvBin;
 
 //	Queue + Arvore AVL
 typedef struct avl {
@@ -41,5 +47,6 @@ typedef struct descritorArvAVL {
 }DescritorArvAVL;
 
 typedef DescritorArvAVL * QueueAVL;
+
 
 #endif
