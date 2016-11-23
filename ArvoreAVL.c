@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <conio.h>
 #include "Types.h"
+#include "Comum.h"
 #include "ArvoreAVL.h"
 
 
-Tavl * criarNoAVL (char elem) {
+Tavl * criarNoAVL (int elem) {
 	Tavl * raiz;
 	raiz = (Tavl *) malloc (sizeof(Tavl));
 	raiz->info = elem;
@@ -14,16 +16,20 @@ Tavl * criarNoAVL (char elem) {
 	return raiz;
 }
 
-void rotacaoDir (Tavl **a, int *status) {
+void rotacaoEsqAVL (Tavl *raiz_original, Tavl **a, int *status) {
 	Tavl *b, *c;
 	b = (*a)->esq;
 	if (b->fatbal == -1) { // rotação simples
+		ajustarAlturaAVL(raiz_original);
+		exibirAVL(raiz_original, 3);
 		(*a)->esq = b->dir;
 		b->dir = *a;
 		(*a)->fatbal = 0;
 		*a = b;
 	}
 	else { // rotação dupla
+		ajustarAlturaAVL(raiz_original);
+		exibirAVL(raiz_original, 4);
 		c = b->dir;
 		b->dir = c->esq;
 		c->esq = b;
@@ -43,16 +49,20 @@ void rotacaoDir (Tavl **a, int *status) {
 	*status = 0;
 }
 
-void rotacaoEsq (Tavl **a,int *status) {
+void rotacaoDirAVL (Tavl *raiz_original, Tavl **a,int *status) {
 	Tavl * b, * c;
 	b = (*a)->dir;
 	if (b->fatbal == 1) { // rotação simples
+		ajustarAlturaAVL(raiz_original);
+		exibirAVL(raiz_original, 1);
 		(*a)->dir = b->esq;
 		b->esq = *a;
 		(*a)->fatbal = 0;
 		*a = b;
 	}
 	else { // rotação dupla
+		ajustarAlturaAVL(raiz_original);
+		exibirAVL(raiz_original, 2);
 		c = b->esq;
 		b->esq = c->dir;
 		c->dir = b;
@@ -72,7 +82,7 @@ void rotacaoEsq (Tavl **a,int *status) {
 	*status = 0;
 }
 
-void inserirAVL (Tavl **raiz, char elem, int *status) {
+void inserirAVL (Tavl *raiz_original, Tavl **raiz, int elem, int *status) {
 	if (*raiz == NULL) {
 		*raiz = criarNoAVL(elem);
 		*status = 1;
@@ -82,7 +92,7 @@ void inserirAVL (Tavl **raiz, char elem, int *status) {
 		return;
 	}
 	else if(elem < (*raiz)->info){
-		inserirAVL(&((*raiz)->esq),elem,status);
+		inserirAVL(raiz_original, &((*raiz)->esq),elem,status);
 		if (*status == 1)
 			switch ((*raiz)->fatbal) {
 			case 1 : 
@@ -93,12 +103,12 @@ void inserirAVL (Tavl **raiz, char elem, int *status) {
 				(*raiz)->fatbal = -1; 
 				break;
 			case -1 : 
-				rotacaoDir(&(*raiz),status); 
+				rotacaoEsqAVL(raiz_original, &(*raiz),status); 
 				break;
 		}
 	}
 	else {
-		inserirAVL(&((*raiz)->dir),elem,status);
+		inserirAVL(raiz_original, &((*raiz)->dir),elem,status);
 		if (*status == 1)
 			switch ((*raiz)->fatbal) {
 			case -1 : 
@@ -109,7 +119,7 @@ void inserirAVL (Tavl **raiz, char elem, int *status) {
 				(*raiz)->fatbal = 1; 
 				break;
 			case 1 : 
-				rotacaoEsq(&(*raiz),status); 
+				rotacaoDirAVL(raiz_original, &(*raiz),status); 
 				break;
 		}
 	}
@@ -142,50 +152,48 @@ void removerNoAVL(Tavl **raiz){
 	free (pos);
 }
 
-void balancearemOrdemAVL (Tavl **raiz){
+void balancearemOrdemAVL (Tavl *raiz_original, Tavl **raiz){
 	int status = 1;
 	if (*raiz != NULL)
 	{
-		balancearemOrdemAVL(&(*raiz)->esq);
+		balancearemOrdemAVL(raiz_original, &(*raiz)->esq);
 		switch ((*raiz)->fatbal) {
-			case 1 : 
-				(*raiz)->fatbal = 0; 
-				rotacaoEsq(&(*raiz),&status);
-				break;
-			case 0 : 
-				(*raiz)->fatbal = -1; 
-				break;
-			case -1 : 
-				rotacaoDir(&(*raiz),&status); 
-				break;
+		case 1 : 
+			(*raiz)->fatbal = 0; 
+			rotacaoDirAVL(raiz_original, &(*raiz),&status);
+			break;
+		case 0 : 
+			(*raiz)->fatbal = -1; 
+			break;
+		case -1 : 
+			rotacaoEsqAVL(raiz_original, &(*raiz),&status); 
+			break;
 		}
-		balancearemOrdemAVL(&(*raiz)->dir);
+		balancearemOrdemAVL(raiz_original, &(*raiz)->dir);
 	}
 }
 
-void balancearAVL(Tavl **raiz){
+void balancearAVL(Tavl *raiz_original, Tavl **raiz){
 	int reto;
 	int *status = 0;
 	reto = ajustarAlturaAVL(*raiz);
-	if(reto > 0)
-		rotacaoEsq(&(*raiz), status);
-	else
-		rotacaoEsq(&(*raiz), status);
-	balancearemOrdemAVL(*(&raiz));
+	balancearemOrdemAVL(raiz_original, *(&raiz));
 }
 
-void removerAVL(Tavl **raiz, char elem){
+void removerAVL(Tavl *raiz_original, Tavl **raiz, int elem){
 	if (*raiz == NULL)
-		printf("Elemento não encontrado.\n");
-	else if (elem == (*raiz)->info)
+		printf("Elemento nao encontrado!\n");
+	else if (elem == (*raiz)->info){
 		removerNoAVL(&(*raiz));
+		printf("\tElemento removido com sucesso!\n");
+	}
 	else{
 		if (elem < (*raiz)->info)
-			removerAVL(&((*raiz)->esq),elem);
+			removerAVL(raiz_original, &((*raiz)->esq),elem);
 		else
-			removerAVL(&((*raiz)->dir),elem);
+			removerAVL(raiz_original, &((*raiz)->dir),elem);
 	}
-	balancearAVL(&(*raiz));
+	balancearAVL(raiz_original, &(*raiz));
 }
 
 int ajustarAlturaAVL (Tavl *raiz) {
@@ -207,6 +215,9 @@ int ajustarAlturaAVL (Tavl *raiz) {
 void exibir_por_nivelAVL(Tavl * raiz){
 	QueueAVL fila;
 	Tavl * aux;
+
+	system("cls");
+	printf("\tExibicao por Nivel\n\n");
 	if (raiz != NULL)
 	{
 		initializeAVL(&fila);
@@ -218,8 +229,42 @@ void exibir_por_nivelAVL(Tavl * raiz){
 				enqueueAVL(&fila,aux->esq);
 			if (aux->dir != NULL)
 				enqueueAVL(&fila,aux->dir);
-			printf("%c \n", aux->info);
+			printf("%d \n", aux->info);
 		}
+	}
+	else{
+		printf("\tArvore vazia!\n\n");
+	}
+	
+	printf("Pressione << ENTER >> para continuar...");
+	while (getch() != 13);
+}
+
+void exibir_pre_ordemAVL (Tavl * raiz){
+	if (raiz != NULL)
+	{
+		printf("%d \n", raiz->info);
+		exibir_pre_ordemAVL(raiz->esq);
+		exibir_pre_ordemAVL(raiz->dir);
+	}
+}
+
+void exibir_pos_ordemAVL (Tavl * raiz){
+	if (raiz != NULL)
+	{
+		exibir_pos_ordemAVL(raiz->esq);
+		exibir_pos_ordemAVL(raiz->dir);
+		printf("%d \n", raiz->info);
+	}
+}
+
+void exibir_em_ordemAVL (Tavl * raiz)
+{
+	if (raiz != NULL)
+	{
+		exibir_em_ordemAVL(raiz->esq);
+		printf("%d \n", raiz->info);
+		exibir_em_ordemAVL(raiz->dir);
 	}
 }
 
@@ -231,38 +276,11 @@ void initializeAVL (QueueAVL *q){
 	*q = aux;
 }
 
-void exibir_pre_ordemAVL (Tavl * raiz){
-	if (raiz != NULL)
-	{
-		printf("%c \n", raiz->info);
-		exibir_pre_ordemAVL(raiz->esq);
-		exibir_pre_ordemAVL(raiz->dir);
-	}
-}
-
-void exibir_pos_ordemAVL (Tavl * raiz){
-	if (raiz != NULL)
-	{
-		exibir_pos_ordemAVL(raiz->esq);
-		exibir_pos_ordemAVL(raiz->dir);
-		printf("%c \n", raiz->info);
-	}
-}
-
-void exibir_em_ordemAVL (Tavl * raiz)
-{
-	if (raiz != NULL)
-	{
-		exibir_em_ordemAVL(raiz->esq);
-		printf("%c \n", raiz->info);
-		exibir_em_ordemAVL(raiz->dir);
-	}
-}
-
 void enqueueAVL (QueueAVL *q, Tavl *n){
 	NoQueueArvAVL *aux;
 	aux = (NoQueueArvAVL*)malloc(sizeof(NoQueueArvAVL));
 	aux->info = n;
+
 	if (isEmptyAVL(*q) == TRUE){
 		(*q)->inicio = aux;
 		(*q)->fim = aux;
@@ -271,17 +289,21 @@ void enqueueAVL (QueueAVL *q, Tavl *n){
 		(*q)->fim->prox = aux;
 		(*q)->fim = aux;
 	}
+	(*q)->fim->prox = NULL;
 }
 
 Tavl * dequeueAVL (QueueAVL *q){
 	NoQueueArvAVL *aux;
 	Tavl * s;
 	aux = (*q)->inicio;
+
 	(*q)->inicio = (*q)->inicio->prox;
 	if ((*q)->inicio == NULL)
 		(*q)->fim = NULL;
 	s = aux->info;
+
 	free(aux);
+
 	return s;
 }
 
@@ -296,13 +318,11 @@ int isEmptyAVL (QueueAVL q){
 		return FALSE;
 }
 
-int isFullAAVL (QueueAVL q){
+int isFullAVL (QueueAVL q){
 	return FALSE;
 }
 
-
-
-Tavl * consultarAVL(Tavl *raiz, char elem){
+Tavl * consultarAVL(Tavl *raiz, int elem){
 	if (raiz == NULL)
 		return NULL;
 	else if (elem == raiz->info)
@@ -312,56 +332,172 @@ Tavl * consultarAVL(Tavl *raiz, char elem){
 	else return consultarAVL(raiz->dir,elem);
 }
 
-int mainAVL(){
+void exibirAVL(Tavl * raiz, int flag){
+	QueueAVL fila;
+	Tavl * aux;
+	int cont = 0, temp, i;
+	int coluna = 34, linha = 3, cont_val = 0;
+
+	system("cls");
+	printf("\t\t\t\tArvore AVL\n");
+	if (raiz != NULL)
+	{
+		printf("\t  Aqui sao mostrados apenas os 4 primeiros niveis da arvore");
+		initializeAVL(&fila);
+		enqueueAVL (&fila,raiz);
+		cont++;
+		while (isEmptyAVL(fila) == FALSE) {
+			temp = cont;
+			for (i = 0; i < temp; i++){
+				ajustar_gotoxy(linha, coluna, cont_val);
+				aux = dequeueAVL(&fila);
+				cont--;
+
+				if (aux != NULL){
+					if (aux->info >= 0 && aux->info < 10)
+						printf("0");
+					printf("%d", aux->info);
+					printf("(%d)", aux->fatbal);
+					enqueueAVL(&fila,aux->esq); cont++;
+					enqueueAVL(&fila,aux->dir); cont++;
+				}
+				else{
+					enqueueAVL(&fila, NULL); cont++;
+					enqueueAVL(&fila, NULL); cont++;
+				}
+
+				cont_val++;
+			}
+			linha = linha + 2;
+			cont_val = 0;
+			if (linha == 11)
+				break;
+		}		
+	}
+	printf("\n\n\n");
+	if (flag == 1)
+		printf("\t\tNecessario rotacao simples a esquerda\n");
+	else if (flag == 2)
+		printf("\t\tNecessario rotacao dupla a esquerda\n");
+	else if (flag == 3)
+		printf("\t\tNecessario rotacao simples a direita\n");
+	else if (flag == 4)
+		printf("\t\tNecessario rotacao dupla a esquerda\n");
+
+	printf("\t\tPressione << ENTER >> para continuar...");
+	while(getch() != 13);
+	system ("cls");
+}
+
+int mainArvAVL(){
 	Tavl *arvAVL = NULL, *retorno= NULL;
-	char op, elemento;
+	char op;
+	int elemento;
 	int op1, status = 0;
 
-	printf("Digite a opcao que deseja:\n");
-	printf("1 - Inserir\n2 - Remover\n3 - Consultar\n4 - Exibir Por Nivel\n5 - Exibir Pre Ordem\n6 - Exibir Pos Ordem\n7 - Exibir Em Ordem\n");
-	op = getchar();
-	fflush(stdin);
-	switch (op){
-	case '1': 		
-		do{
-			printf("Informe o elemento a ser inserido: ");
-			scanf("%c", &elemento);
-			fflush(stdin);
-			inserirAVL(&arvAVL, elemento, &status);
-			printf("Para para a insercao pressione space ");
-			op1 = getchar();
-			fflush(stdin);
-		}while(op1 != ' ');
-		break;
-	case '2': 
-		printf("Informe o elemento que deseja remover: ");
-		elemento = getchar();
+	do{
+		system("cls");
+		printf("\t\tArvore AVL\n\n");
+		printf("1 - Inserir\n2 - Remover\n3 - Consultar\n4 - Exibir Por Nivel\n5 - Exibir Pre Ordem\n");
+		printf("6 - Exibir Pos Ordem\n7 - Exibir Em Ordem\n8 - Exibir Arvore\n9 - Voltar ao Menu Principal\n");
+		printf("\nInforme a opcao desejada: ");
+		op = getchar();
 		fflush(stdin);
-		removerAVL(&arvAVL, elemento);
-		break;
-	case '3':
-		printf("Qual elemento deseja buscar: ");
-		elemento = getchar();
-		fflush(stdin);
-		retorno = consultarAVL(arvAVL, elemento);
-		if(retorno != NULL)
-			printf("Valor nao consta na arvore!\n");
-		else
-			printf("Valor encontrado!\n");
-	case '4':
-		exibir_por_nivelAVL (arvAVL);
-		break;
-	case '5':
-		exibir_pre_ordemAVL (arvAVL);
-		break;
-	case '6':
-		exibir_pos_ordemAVL (arvAVL);
-		break;
-	case '7':
-		exibir_em_ordemAVL (arvAVL);
-		break;
-	default:
-		printf("Opcao invalida!");
-		break;
-	}
+		printf("\n");
+
+		switch (op){
+		case '1': 					
+			do{
+				system("cls");
+				printf("\t\t\tInsercao AVL\n");
+				printf("\nOs valores devem ser >= 0 e <= 99 (ou seja, ter 2 digitos)");
+				printf("\nPara cancelar a insercao, insira << -1 >>\n");
+				printf("\nInforme o elemento a ser inserido: ");
+				scanf("%d", &elemento);
+				fflush(stdin);
+				if (elemento != -1) {
+					if (elemento < 0 || elemento > 99)
+						printf("Valor invalido! O numero deve estar entre 0 e 99\n");
+					else{
+						inserirAVL(arvAVL, &arvAVL, elemento, &status);
+						exibirAVL(arvAVL, 0);
+					}
+				}
+			}while(elemento != -1);
+			break;
+
+		case '2': 
+			printf("Informe o elemento que deseja remover: ");
+			scanf("%d", &elemento);
+			fflush(stdin);
+			removerAVL(arvAVL, &arvAVL, elemento);
+			pause(1.5);
+			break;
+		case '3':
+
+			printf("Qual elemento deseja buscar: ");
+			scanf("%d", &elemento);
+			fflush(stdin);
+			retorno = consultarAVL(arvAVL, elemento);
+			if(retorno != NULL)
+				printf("\tValor nao encontrado!\n");
+			else
+				printf("\tValor encontrado!\n");
+			pause(1.5);
+			break;
+
+		case '4':
+			if (arvAVL == NULL){
+				printf("\tArvore Vazia!");
+				pause(1.5);
+			}
+			else
+				exibir_por_nivelAVL (arvAVL);
+			break;
+
+		case '5':
+			if (arvAVL == NULL){
+				printf("\tArvore Vazia!");
+				pause(1.5);
+			}
+			else
+				exibir_pre_ordemAVL (arvAVL);
+			break;
+
+		case '6':
+			if (arvAVL == NULL){
+				printf("\tArvore Vazia!");
+				pause(1.5);
+			}
+			else
+				exibir_pos_ordemAVL (arvAVL);
+			break;
+
+		case '7':
+			if (arvAVL == NULL){
+				printf("\tArvore Vazia!");
+				pause(1.5);
+			}
+			else
+				exibir_em_ordemAVL (arvAVL);
+			break;
+
+		case '8':
+			if (arvAVL == NULL){
+				printf("\tArvore Vazia!");
+				pause(1.5);
+			}
+			else
+				exibirAVL(arvAVL, 0);
+			break;
+
+		case '9':
+			break;
+
+		default:
+			printf("\tOpcao invalida!");
+			pause(1.5);
+			break;
+		}
+	} while (op != '9');
 }

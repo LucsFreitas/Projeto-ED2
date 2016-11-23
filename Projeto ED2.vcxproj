@@ -78,9 +78,15 @@
   <ItemGroup>
     <ClInclude Include="ArvoreAVL.h" />
     <ClInclude Include="ArvoreBin.h" />
+    <ClInclude Include="ArvoreRedBlack.h" />
     <ClInclude Include="BubbleSort.h" />
     <ClInclude Include="Comum.h" />
     <ClInclude Include="HeapSort.h" />
+    <ClInclude Include="ListaCircularDupla.h" />
+    <ClInclude Include="ListaCircularSimples.h" />
+    <ClInclude Include="ListaDupla.h" />
+    <ClInclude Include="ListaSimples.h" />
+    <ClInclude Include="Main.h" />
     <ClInclude Include="MergeSort.h" />
     <ClInclude Include="QuickSort.h" />
     <ClInclude Include="Types.h" />
@@ -88,9 +94,14 @@
   <ItemGroup>
     <ClCompile Include="ArvoreAVL.c" />
     <ClCompile Include="ArvoreBin.c" />
+    <ClCompile Include="ArvoreRedBlack.c" />
     <ClCompile Include="BubbleSort.c" />
     <ClCompile Include="Comum.c" />
     <ClCompile Include="HeapSort.c" />
+    <ClCompile Include="ListaCircularDupla.c" />
+    <ClCompile Include="ListaCircularSimples.c" />
+    <ClCompile Include="ListaDupla.c" />
+    <ClCompile Include="ListaSimples.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="MergeSort.c" />
     <ClCompile Include="QuickSort.c" />

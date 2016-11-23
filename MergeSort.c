@@ -4,42 +4,54 @@
 #include "MergeSort.h"
 #include "Comum.h"
 
-/*
-p = posição inicial do vetor
-r = ate qual posicao iremos ordenar
-v = vetor a ser ordenado
-q = meio do vetor				*/
 
-void mergesort(int p, int r, int v[]){
-	int q;
-	if (p < r - 1){
-		q = (p + r) / 2;
-		exibirMS(v, p, r);
-		mergesort(p, q, v);
-		exibirMS(v, p, r);
-		mergesort(p, q, v);
-		exibirMS(v, p, r);
-		intercalar(p, q, r, v);
-		exibirMS(v, p, r);
-	}
-}
+void mergesort(int *vetor, int posicaoInicio, int posicaoFim) {
+    int i, j, k, metadeTamanho, *vetorTemp;
 
-void intercalar(int p, int q, int r, int v[]){
-	int i = p, j = q, k = 0, *w;
-	w = (int *) malloc((r - p) * sizeof(int));
-	while (i < q && j < r){
-		if (v[i] <= v[j])
-			w[k++] = v[i++];
-		else
-			w[k++] = v[j++];
-	}
-	while (i < q)
-		w[k++] = v[i++];
-	while (j < r)
-		w[k++] = v[j++];
-	for (i = p; i < r; i++)
-		v[i] = w[i - p];
-	free(w);
+    if(posicaoInicio == posicaoFim) return;
+
+    metadeTamanho = (posicaoInicio + posicaoFim ) / 2;
+    mergesort(vetor, posicaoInicio, metadeTamanho);
+    mergesort(vetor, metadeTamanho + 1, posicaoFim);
+
+
+    i = posicaoInicio;
+    j = metadeTamanho + 1;
+    k = 0;
+    vetorTemp = (int *) malloc(sizeof(int) * (posicaoFim - posicaoInicio + 1));
+
+    while(i < metadeTamanho + 1 || j  < posicaoFim + 1) {
+        if (i == metadeTamanho + 1 ) { 
+            vetorTemp[k] = vetor[j];
+            j++;
+            k++;
+        }
+        else {
+            if (j == posicaoFim + 1) { 
+                vetorTemp[k] = vetor[i];
+                i++;
+                k++;
+            }
+            else {
+                if (vetor[i] < vetor[j]) {
+                    vetorTemp[k] = vetor[i];
+                    i++;
+                    k++;
+                }
+                else {
+                    vetorTemp[k] = vetor[j];
+                    j++;
+                    k++;
+                }
+            }
+        }
+
+    }
+
+    for(i = posicaoInicio; i <= posicaoFim; i++) {
+        vetor[i] = vetorTemp[i - posicaoInicio];
+    }
+    free(vetorTemp);
 }
 
 void exibirMS(int vet[], int inicio, int max){
@@ -47,16 +59,15 @@ void exibirMS(int vet[], int inicio, int max){
 
 	printf("Vetor - ");
 
-	for (i = inicio; i < max; i++){
+	for (i = inicio; i < max + 1; i++){
 		printf("%d ", vet[i]);
 	}
-	printf("\n\nPressione <ENTER> para continuar...");
-	while (getch() != 13);
 }
 
 int mainMergeSort(){
 	int vet[40], max;
 
-	max = criarVetor(vet, 40);
-	mergesort(0, max, vet);
+	max = criarVetor(vet, 40) - 1;
+	mergesort(vet, 0, max);
+	exibirMS(vet, 0, max);
 }

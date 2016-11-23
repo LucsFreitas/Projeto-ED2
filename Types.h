@@ -7,7 +7,7 @@
 //	Queue + Stacks + ArvBin
 typedef struct no {
 	struct no *esq;
-	char info;
+	int info;
 	struct no *dir;
 }TNo;
 
@@ -22,16 +22,9 @@ typedef struct descritorArvBin {
 
 typedef DescritorArvBin * QueueArvBin;
 
-typedef struct noPilhaArvBin {
-	TNo * info;
-	struct noPilhaArvBin * prox;
-} NoPilhaArvBin;
-
-typedef NoPilhaArvBin * StackArvBin;
-
 //	Queue + Arvore AVL
 typedef struct avl {
-	char info;
+	int info;
 	struct avl * dir;
 	struct avl * esq;
 	int fatbal;
@@ -48,5 +41,53 @@ typedef struct descritorArvAVL {
 
 typedef DescritorArvAVL * QueueAVL;
 
+//    Arvore Red - Black
+
+typedef struct noRB{
+    int numero_arvore;
+    char cor;
+    struct noRB *pai;
+    struct noRB *esquerda;
+    struct noRB *direita;
+} redblack;
+
+typedef struct noQueueArvRB {
+	redblack *info;
+	struct noQueueArvRB * prox;
+}NoQueueArvRB;
+
+typedef struct descritorArvRB {
+	NoQueueArvRB * inicio, * fim;
+}DescritorArvRB;
+
+typedef DescritorArvRB * QueueRB;
+
+
+//    Lista Simplesmente Encadeada
+
+typedef struct LSE{
+	char info[100];
+	struct LSE *prox;
+}TLSE;
+
+//   Lista Duplamente Encadeada
+typedef struct LDE{
+	char descricao[100];
+	struct LDE *ant;
+	struct LDE *prox;
+}TLDE;
+
+//   Lista Circular Simples
+typedef struct LSEC{
+	char nome[50];
+	struct LSEC * prox;
+}TLSEC;
+
+//   Lista Circular Dupla
+typedef struct LDEC{
+	char n[50];
+	struct LDEC * prox;
+	struct LDEC * ant;
+}TLDEC;
 
 #endif
