@@ -81,6 +81,8 @@
     <ClInclude Include="ArvoreRedBlack.h" />
     <ClInclude Include="BubbleSort.h" />
     <ClInclude Include="Comum.h" />
+    <ClInclude Include="HashAlfa.h" />
+    <ClInclude Include="HashInt.h" />
     <ClInclude Include="HeapSort.h" />
     <ClInclude Include="ListaCircularDupla.h" />
     <ClInclude Include="ListaCircularSimples.h" />
@@ -97,6 +99,8 @@
     <ClCompile Include="ArvoreRedBlack.c" />
     <ClCompile Include="BubbleSort.c" />
     <ClCompile Include="Comum.c" />
+    <ClCompile Include="HashAlfa.c" />
+    <ClCompile Include="HashInt.c" />
     <ClCompile Include="HeapSort.c" />
     <ClCompile Include="ListaCircularDupla.c" />
     <ClCompile Include="ListaCircularSimples.c" />

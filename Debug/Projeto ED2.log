@@ -1,36 +1,30 @@
-﻿Compilação de 23/11/2016 13:18:59 iniciada.
-     1>Projeto "C:\Users\lucas\Documents\Visual Studio 2012\Projects\NovaPasta\Projeto-ED2\Projeto ED2.vcxproj" no nó 2 (Build destino(s)).
+﻿Build started 28/11/2016 01:19:53.
+     1>Project "C:\Users\lucas\Desktop\Projeto-ED2-master\Projeto ED2.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TC /analyze- /errorReport:prompt ArvoreAVL.c ArvoreBin.c ArvoreRedBlack.c BubbleSort.c Comum.c HeapSort.c ListaCircularDupla.c ListaCircularSimples.c ListaDupla.c ListaSimples.c Main.c MergeSort.c QuickSort.c
-         QuickSort.c
-     1>c:\users\lucas\documents\visual studio 2012\projects\novapasta\projeto-ed2\quicksort.c(1): fatal error C1083: Não é possível abrir arquivo incluir: 'stdio.h': No such file or directory
-         MergeSort.c
-     1>c:\users\lucas\documents\visual studio 2012\projects\novapasta\projeto-ed2\mergesort.c(1): fatal error C1083: Não é possível abrir arquivo incluir: 'stdio.h': No such file or directory
-         Main.c
-     1>c:\users\lucas\documents\visual studio 2012\projects\novapasta\projeto-ed2\main.c(1): fatal error C1083: Não é possível abrir arquivo incluir: 'stdio.h': No such file or directory
-         ListaSimples.c
-     1>c:\users\lucas\documents\visual studio 2012\projects\novapasta\projeto-ed2\listasimples.c(1): fatal error C1083: Não é possível abrir arquivo incluir: 'stdio.h': No such file or directory
-         ListaDupla.c
-     1>c:\users\lucas\documents\visual studio 2012\projects\novapasta\projeto-ed2\listadupla.c(1): fatal error C1083: Não é possível abrir arquivo incluir: 'stdio.h': No such file or directory
-         ListaCircularSimples.c
-     1>c:\users\lucas\documents\visual studio 2012\projects\novapasta\projeto-ed2\listacircularsimples.c(1): fatal error C1083: Não é possível abrir arquivo incluir: 'stdio.h': No such file or directory
-         ListaCircularDupla.c
-     1>c:\users\lucas\documents\visual studio 2012\projects\novapasta\projeto-ed2\listacirculardupla.c(1): fatal error C1083: Não é possível abrir arquivo incluir: 'stdio.h': No such file or directory
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TC /analyze- /errorReport:prompt HeapSort.c
          HeapSort.c
-     1>c:\users\lucas\documents\visual studio 2012\projects\novapasta\projeto-ed2\heapsort.c(1): fatal error C1083: Não é possível abrir arquivo incluir: 'stdio.h': No such file or directory
-         Comum.c
-     1>c:\users\lucas\documents\visual studio 2012\projects\novapasta\projeto-ed2\comum.c(1): fatal error C1083: Não é possível abrir arquivo incluir: 'stdio.h': No such file or directory
-         BubbleSort.c
-     1>c:\users\lucas\documents\visual studio 2012\projects\novapasta\projeto-ed2\bubblesort.c(1): fatal error C1083: Não é possível abrir arquivo incluir: 'stdio.h': No such file or directory
-         ArvoreRedBlack.c
-     1>c:\users\lucas\documents\visual studio 2012\projects\novapasta\projeto-ed2\arvoreredblack.c(1): fatal error C1083: Não é possível abrir arquivo incluir: 'stdio.h': No such file or directory
-         ArvoreBin.c
-     1>c:\users\lucas\documents\visual studio 2012\projects\novapasta\projeto-ed2\arvorebin.c(1): fatal error C1083: Não é possível abrir arquivo incluir: 'stdio.h': No such file or directory
-         ArvoreAVL.c
-     1>c:\users\lucas\documents\visual studio 2012\projects\novapasta\projeto-ed2\arvoreavl.c(1): fatal error C1083: Não é possível abrir arquivo incluir: 'stdio.h': No such file or directory
-         Gerando Código...
-     1>Projeto de compilação pronto "C:\Users\lucas\Documents\Visual Studio 2012\Projects\NovaPasta\Projeto-ED2\Projeto ED2.vcxproj" (Build destino(s)) -- FALHA.
+     1>c:\users\lucas\desktop\projeto-ed2-master\heapsort.c(74): warning C4996: 'getch': The POSIX name for this item is deprecated. Instead, use the ISO C++ conformant name: _getch. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 11.0\vc\include\conio.h(131) : see declaration of 'getch'
+     1>c:\users\lucas\desktop\projeto-ed2-master\heapsort.c(14): warning C4716: 'mainHeapSort' : must return a value
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\lucas\Desktop\Projeto-ED2-master\Debug\Projeto ED2.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\lucas\Desktop\Projeto-ED2-master\Debug\Projeto ED2.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\lucas\Desktop\Projeto-ED2-master\Debug\Projeto ED2.lib" /MACHINE:X86 Debug\ArvoreAVL.obj
+         Debug\ArvoreBin.obj
+         Debug\ArvoreRedBlack.obj
+         Debug\BubbleSort.obj
+         Debug\Comum.obj
+         Debug\HashAlfa.obj
+         Debug\HashInt.obj
+         Debug\HeapSort.obj
+         Debug\ListaCircularDupla.obj
+         Debug\ListaCircularSimples.obj
+         Debug\ListaDupla.obj
+         Debug\ListaSimples.obj
+         Debug\Main.obj
+         Debug\MergeSort.obj
+         Debug\QuickSort.obj
+         Projeto ED2.vcxproj -> C:\Users\lucas\Desktop\Projeto-ED2-master\Debug\Projeto ED2.exe
+     1>Done Building Project "C:\Users\lucas\Desktop\Projeto-ED2-master\Projeto ED2.vcxproj" (Build target(s)).
 
-FALHA da compilação.
+Build succeeded.
 
-Tempo Decorrido 00:00:02.04
+Time Elapsed 00:00:00.81

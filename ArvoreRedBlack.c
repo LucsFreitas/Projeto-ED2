@@ -6,108 +6,14 @@
 
 redblack *vazio = NULL;
 
-void mainArvRB(){
-	redblack *ArvoreRB = NULL;
-	redblack *aux;
-	int valor, altura, opc;
-	vazio = (redblack*)malloc(sizeof(redblack));
-	vazio->pai = ArvoreRB;
-	vazio->direita = vazio->esquerda = vazio;
-
-	do {        
-		printf("1.Inserir noh na arvore...:\n");
-		printf("2.Mostrar arvore (RED)....:\n");
-		printf("3.Calcular altura preta...:\n");
-		printf("4.Remover noh da arvore...:\n");
-		printf("5.Alterar noh da arvore...:\n");
-		printf("0.Sair do programa........:\n");
-		printf("?: ");
-
-		scanf("%d", &opc); fflush(stdin);
-		switch (opc)
-		{
-
-		case 1:
-			inserir_NovoRB(&ArvoreRB, criaNovoRB());
-			break;
-		case 2:
-			printf("Exibicao de nos da arvore \n\n");
-			if(ArvoreRB != NULL)
-				visitarEmOrdemRB(ArvoreRB);
-			else
-				printf("Sem Elementos na Arvore \n");
-			break;
-		case 3:
-			if(ArvoreRB != NULL){
-				altura = calcularAlturaPretaRB(ArvoreRB);
-				printf("Altura preta da arvore: %d\n", altura);
-			}else
-				printf("Sem Elementos na Arvore \n");
-			break;
-		case 4:
-			if(ArvoreRB != NULL){
-				printf("Digite o numero da Arvore para Remocao ?   \n");
-				scanf("%d", &valor);
-				aux = localizar_Noh_ArvoreRB(ArvoreRB, valor);
-				if (aux->numero_arvore == valor)
-				{
-					mostraDadosNohRB(aux);
-					removerRB(&ArvoreRB, aux);
-				}
-				else
-				{
-					printf("\nO numero %d nao encontrada!\n\n", valor);
-				}
-				if(ArvoreRB == vazio)
-				{
-					vazio = (redblack*)malloc(sizeof(redblack));
-					vazio->pai = ArvoreRB = NULL;
-					vazio->direita = vazio->esquerda = vazio;
-				}
-			}
-			else
-			{
-				printf("Sem Elementos na Arvore \n");
-			}
-			break;
-		case 6:
-			exibirRB(ArvoreRB, 0);
-			break;
-		case 5:
-			if(ArvoreRB != NULL)
-			{
-				printf("Qual noh deseja alterar\n ");
-				scanf("%d", &valor);
-				aux = localizar_Noh_ArvoreRB(ArvoreRB, valor);
-				if (aux->numero_arvore == valor)
-				{
-					mostraDadosNohRB(aux);
-					inserir_NovoRB(&(ArvoreRB),criaNovoRB());
-					removerRB(&ArvoreRB, aux);
-
-				}
-				else
-				{
-					printf("O numero %d nao encontrada!\n\n", valor);
-				}
-			}
-			else
-			{
-				printf("Sem Elementos na Arvore \n");
-			}
-
-			break;
-		}
-	}
-	while (opc != 0);
-}
 
 // Rotacao a Esquerda do No
-void rotacaoEsquerdaRB(redblack **ArvoreRB, redblack *noh){
+void rotacaoEsquerdaRB(redblack *raiz_original, redblack **ArvoreRB, redblack *noh){
 	redblack *y;
 
 	if(((*ArvoreRB)->pai == vazio) && (noh->direita != vazio))
 	{
+		exibirRB(raiz_original, 1);
 		y = noh->direita;
 		noh->direita = y->esquerda;
 		y->esquerda->pai = noh;
@@ -132,11 +38,12 @@ void rotacaoEsquerdaRB(redblack **ArvoreRB, redblack *noh){
 }
 
 //Rotacao a Direita do no
-void rotacaoDireitaRB(redblack **ArvoreRB, redblack *noh){
+void rotacaoDireitaRB(redblack *raiz_original, redblack **ArvoreRB, redblack *noh){
 	redblack *y;
 
 	if(((*ArvoreRB)->pai == vazio) && (noh->esquerda != vazio))
 	{
+		exibirRB(raiz_original, 2);
 		y = noh->esquerda;
 		noh->esquerda = y->direita;
 		y->direita->pai = noh;
@@ -184,20 +91,17 @@ redblack* inserir_NovoRB(redblack **ArvoreRB, redblack *noh)// Insere na arvore
 	{
 		y = x;
 
-		if(noh->numero_arvore < x->numero_arvore)
-		{
+		if(noh->numero_arvore < x->numero_arvore){
 			x = x->esquerda;
 		}
-		else
-		{
+		else{
 			x = x->direita;
 		}
 	}
 
 	noh->pai = y;
 
-	if(noh->numero_arvore < y->numero_arvore)
-	{
+	if(noh->numero_arvore < y->numero_arvore)	{
 		y->esquerda = noh;
 	}
 	else if(noh->numero_arvore > y->numero_arvore)
@@ -213,12 +117,12 @@ redblack* inserir_NovoRB(redblack **ArvoreRB, redblack *noh)// Insere na arvore
 	noh->direita = vazio;
 	noh->cor = 'V';
 
-	inserirCorRB(&(*ArvoreRB), noh);
+	inserirCorRB(*ArvoreRB, &(*ArvoreRB), noh);
 	return noh;
 }
 
 // Insere a Cor do nova e faz o balaceamento caso precisar
-void inserirCorRB(redblack **ArvoreRB,redblack *noh)//
+void inserirCorRB(redblack *raiz_original, redblack **ArvoreRB,redblack *noh)//
 {
 	redblack *y;
 
@@ -240,12 +144,12 @@ void inserirCorRB(redblack **ArvoreRB,redblack *noh)//
 				if(noh == noh->pai->direita)
 				{
 					noh = noh->pai;
-					rotacaoEsquerdaRB(&(*ArvoreRB), noh);
+					rotacaoEsquerdaRB(raiz_original, &(*ArvoreRB), noh);
 				}
 
 				noh->pai->cor = 'P';
 				noh->pai->pai->cor = 'V';
-				rotacaoDireitaRB(&(*ArvoreRB), noh->pai->pai);
+				rotacaoDireitaRB(raiz_original, &(*ArvoreRB), noh->pai->pai);
 			}
 		}
 		else
@@ -264,12 +168,12 @@ void inserirCorRB(redblack **ArvoreRB,redblack *noh)//
 				if(noh == noh->pai->esquerda)
 				{
 					noh = noh->pai;
-					rotacaoDireitaRB(&(*ArvoreRB), noh);
+					rotacaoDireitaRB(raiz_original, &(*ArvoreRB), noh);
 				}
 
 				noh->pai->cor = 'P';
 				noh->pai->pai->cor = 'V';
-				rotacaoEsquerdaRB(&(*ArvoreRB), noh->pai->pai);
+				rotacaoEsquerdaRB(raiz_original, &(*ArvoreRB), noh->pai->pai);
 			}
 		}
 	}
@@ -328,9 +232,9 @@ redblack *removerRB(redblack **ArvoreRB, redblack *noh)
 		if((*ArvoreRB)->direita == vazio && (*ArvoreRB)->esquerda->direita != vazio)
 		{
 
-			rotacaoEsquerdaRB(&(*ArvoreRB), (*ArvoreRB)->esquerda);
+			rotacaoEsquerdaRB(*ArvoreRB, &(*ArvoreRB), (*ArvoreRB)->esquerda);
 			removerCorRB(&(*ArvoreRB), (*ArvoreRB)->esquerda);
-			rotacaoDireitaRB(&(*ArvoreRB), (*ArvoreRB));
+			rotacaoDireitaRB(*ArvoreRB, &(*ArvoreRB), (*ArvoreRB));
 		}
 		else
 		{
@@ -338,9 +242,9 @@ redblack *removerRB(redblack **ArvoreRB, redblack *noh)
 			if((*ArvoreRB)->esquerda == vazio && (*ArvoreRB)->direita->esquerda != vazio)
 			{
 
-				rotacaoDireitaRB(&(*ArvoreRB), (*ArvoreRB)->direita);
+				rotacaoDireitaRB(*ArvoreRB, &(*ArvoreRB), (*ArvoreRB)->direita);
 				removerCorRB(&(*ArvoreRB), (*ArvoreRB)->direita);
-				rotacaoEsquerdaRB(&(*ArvoreRB), (*ArvoreRB));
+				rotacaoEsquerdaRB(*ArvoreRB, &(*ArvoreRB), (*ArvoreRB));
 			}
 		}
 		removerCorRB(&(*ArvoreRB), x);
@@ -366,7 +270,7 @@ void removerCorRB(redblack **ArvoreRB, redblack *noh)
 			{
 				aux->cor = 'P';
 				noh->pai->cor = 'V';
-				rotacaoEsquerdaRB(&(*ArvoreRB), noh->pai);
+				rotacaoEsquerdaRB(*ArvoreRB, &(*ArvoreRB), noh->pai);
 				aux = noh->pai->direita;
 			}
 
@@ -379,12 +283,12 @@ void removerCorRB(redblack **ArvoreRB, redblack *noh)
 			{
 				aux->esquerda->cor = 'P';
 				aux->cor = 'V';
-				rotacaoDireitaRB(&(*ArvoreRB), aux);
+				rotacaoDireitaRB(*ArvoreRB, &(*ArvoreRB), aux);
 				aux = noh->pai->direita;
 				aux->cor = noh->pai->cor;
 				noh->pai->cor = 'P';
 				aux->direita->cor = 'P';
-				rotacaoEsquerdaRB(&(*ArvoreRB), noh->pai);
+				rotacaoEsquerdaRB(*ArvoreRB, &(*ArvoreRB), noh->pai);
 				noh = *ArvoreRB;
 			}
 		}
@@ -396,7 +300,7 @@ void removerCorRB(redblack **ArvoreRB, redblack *noh)
 			{
 				aux->cor = 'P';
 				noh->pai->cor = 'V';
-				rotacaoDireitaRB(&(*ArvoreRB), noh->pai);
+				rotacaoDireitaRB(*ArvoreRB, &(*ArvoreRB), noh->pai);
 				aux = noh->pai->esquerda;
 			}
 
@@ -409,12 +313,12 @@ void removerCorRB(redblack **ArvoreRB, redblack *noh)
 			{
 				aux->direita->cor = 'P';
 				aux->cor = 'V';
-				rotacaoEsquerdaRB(&(*ArvoreRB), aux);
+				rotacaoEsquerdaRB(*ArvoreRB, &(*ArvoreRB), aux);
 				aux = noh->pai->esquerda;
 				aux->cor = noh->pai->cor;
 				noh->pai->cor = 'P';
 				aux->esquerda->cor = 'P';
-				rotacaoDireitaRB(&(*ArvoreRB), noh->pai);
+				rotacaoDireitaRB(*ArvoreRB, &(*ArvoreRB), noh->pai);
 				noh = *ArvoreRB;
 			}
 		}
@@ -467,14 +371,17 @@ redblack* minimoRB(redblack *noh)
 redblack* criaNovoRB()
 {
 	redblack *novo;
+	int n;
 	novo = (redblack*)malloc(sizeof(redblack));
-	printf("Informe um numero para a Arvore...: ");
-	scanf("%d", &novo->numero_arvore);
-	if(novo->numero_arvore < 0)
-	{
-		printf("Numero Invalido! Tente Novamente !!!\n");
-		return criaNovoRB();
-	}
+	do{
+		printf("\nInforme o valor a ser inserido (deve ser entre 0 e 99): ");
+		scanf("%d", &n);
+		if(n < 0 || n > 99)
+		{
+			printf("Numero Invalido! Tente Novamente !!!\n");
+		}
+	} while(n < 0 || n > 99);
+	novo->numero_arvore = n;
 	novo->cor = 'V'; // todo novo noh é vermelho
 	novo->pai = vazio;
 	novo->direita = vazio;
@@ -488,7 +395,7 @@ void visitarEmOrdemRB(redblack* ArvoreRB)
 {
 	if (ArvoreRB != vazio)
 	{
-		mostraDadosNohRB(ArvoreRB);
+		printf("%d (%c)", ArvoreRB->numero_arvore, ArvoreRB->cor);
 		visitarEmOrdemRB(ArvoreRB->esquerda);
 		visitarEmOrdemRB(ArvoreRB->direita);
 	}
@@ -631,15 +538,14 @@ void exibirRB(redblack * raiz, int flag){
 		while (isEmptyRB(fila) == FALSE) {
 			temp = cont;
 			for (i = 0; i < temp; i++){
-				ajustar_gotoxy(linha, coluna, cont_val);
+				ajustar_gotoxy_composto(linha, coluna, cont_val);
 				aux = dequeueRB(&fila);
 				cont--;
 
-				if (aux != NULL){
+				if (aux != NULL && (aux->numero_arvore >= 0 && aux->numero_arvore <= 99)){
 					if (aux->numero_arvore >= 0 && aux->numero_arvore < 10)
 						printf("0");
-					printf("%d", aux->numero_arvore);
-					printf("(%c)", aux->cor);
+					printf("%d (%c)", aux->numero_arvore, aux->cor);
 					enqueueRB(&fila,aux->esquerda); cont++;
 					enqueueRB(&fila,aux->direita); cont++;
 				}
@@ -658,15 +564,107 @@ void exibirRB(redblack * raiz, int flag){
 	}
 	printf("\n\n\n");
 	if (flag == 1)
-		printf("\t\tNecessario rotacao simples a esquerda\n");
+		printf("\t\tNecessario rotacao a esquerda\n");
 	else if (flag == 2)
-		printf("\t\tNecessario rotacao dupla a esquerda\n");
-	else if (flag == 3)
-		printf("\t\tNecessario rotacao simples a direita\n");
-	else if (flag == 4)
-		printf("\t\tNecessario rotacao dupla a esquerda\n");
+		printf("\t\tNecessario rotacao a direita\n");
 
 	printf("\t\tPressione << ENTER >> para continuar...");
 	while(getch() != 13);
 	system ("cls");
+}
+
+void mainArvRB(){
+	redblack *ArvoreRB = NULL;
+	redblack *aux;
+	int valor, altura, opc;
+	vazio = (redblack*)malloc(sizeof(redblack));
+	vazio->pai = ArvoreRB;
+	vazio->direita = vazio->esquerda = vazio;
+
+	do {
+		system("cls");
+		printf("\t\tArvore Red-Black\n\n");
+		printf("1 - Inserir\n2 - Passeio em Ordem\n3 - Calcular altura preta\n");
+		printf("4 - Remover\n5 - Alterar\n6 - Exibir Arvore\n7 - Voltar ao Menu de Arvores\n");
+		printf("\nInforme a opcao desejada: ");
+		scanf("%d", &opc); fflush(stdin);
+
+		switch (opc) {
+		case 1:
+			inserir_NovoRB(&ArvoreRB, criaNovoRB());
+			exibirRB(ArvoreRB, 0);
+			break;
+		case 2:
+			printf("Exibicao de nos da arvore \n\n");
+			if(ArvoreRB != NULL)
+				visitarEmOrdemRB(ArvoreRB);
+			else
+				printf("Sem Elementos na Arvore \n");
+			getch();
+			break;
+		case 3:
+			if(ArvoreRB != NULL){
+				altura = calcularAlturaPretaRB(ArvoreRB);
+				printf("Altura preta da arvore: %d\n", altura);
+			}else
+				printf("Sem Elementos na Arvore \n");
+			break;
+		case 4:
+			if(ArvoreRB != NULL){
+				printf("Digite o numero da Arvore para Remocao ?   \n");
+				scanf("%d", &valor);
+				aux = localizar_Noh_ArvoreRB(ArvoreRB, valor);
+				if (aux->numero_arvore == valor)
+				{
+					mostraDadosNohRB(aux);
+					removerRB(&ArvoreRB, aux);
+				}
+				else
+				{
+					printf("\nO numero %d nao encontrada!\n\n", valor);
+				}
+				if(ArvoreRB == vazio)
+				{
+					vazio = (redblack*)malloc(sizeof(redblack));
+					vazio->pai = ArvoreRB = NULL;
+					vazio->direita = vazio->esquerda = vazio;
+				}
+			}
+			else
+			{
+				printf("Sem Elementos na Arvore \n");
+			}
+			break;
+		case 5:
+			if(ArvoreRB != NULL)
+			{
+				printf("Qual noh deseja alterar\n ");
+				scanf("%d", &valor);
+				aux = localizar_Noh_ArvoreRB(ArvoreRB, valor);
+				if (aux->numero_arvore == valor)
+				{
+					mostraDadosNohRB(aux);
+					inserir_NovoRB(&(ArvoreRB),criaNovoRB());
+					removerRB(&ArvoreRB, aux);
+
+				}
+				else
+				{
+					printf("O numero %d nao encontrada!\n\n", valor);
+				}
+			}
+			else
+			{
+				printf("Sem Elementos na Arvore \n");
+			}
+
+			break;
+		case 6:
+			exibirRB(ArvoreRB, 0);
+			break;
+		case 7:
+			break;
+		}
+	}
+	while (opc != 0);
 }

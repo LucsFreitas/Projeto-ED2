@@ -90,4 +90,28 @@ typedef struct LDEC{
 	struct LDEC * ant;
 }TLDEC;
 
+//	Hash Int
+typedef struct hashInt{
+	int dados;
+	struct hashInt *prox;
+}ThashInt;
+
+// Hash Chaves Alfa
+typedef struct hashAlfa{
+	char dados[50];
+	struct hashAlfa *prox;
+}ThashAlfa;
+
+//	 Fila HeapSort
+typedef struct noQueueHS {
+	int info;
+	struct noQueueHS * prox;
+}NoQueueHS;
+
+typedef struct descritorHS {
+	NoQueueHS * inicio, * fim;
+}DescritorHS;
+
+typedef DescritorHS * QueueHS;
+
 #endif

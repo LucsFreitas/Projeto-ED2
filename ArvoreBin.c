@@ -198,7 +198,7 @@ void exibirArvBin(TNo * raiz){
 		while (isEmptyArvBin(fila) == FALSE) {
 			temp = cont;
 			for (i = 0; i < temp; i++){
-				ajustar_gotoxy_ArvBin(linha, coluna, cont_val);
+				ajustar_gotoxy_simples(linha, coluna, cont_val);
 				aux = dequeueArvBin(&fila);
 				cont--;
 
@@ -222,6 +222,7 @@ void exibirArvBin(TNo * raiz){
 				break;
 		}		
 	}
+	free(fila);
 	printf("\n\n\t\t\tPressione << ENTER >> para continuar...");
 	while(getch() != 13);
 	system ("cls");

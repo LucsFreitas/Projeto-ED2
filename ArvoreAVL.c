@@ -349,7 +349,7 @@ void exibirAVL(Tavl * raiz, int flag){
 		while (isEmptyAVL(fila) == FALSE) {
 			temp = cont;
 			for (i = 0; i < temp; i++){
-				ajustar_gotoxy(linha, coluna, cont_val);
+				ajustar_gotoxy_composto(linha, coluna, cont_val);
 				aux = dequeueAVL(&fila);
 				cont--;
 
@@ -384,6 +384,7 @@ void exibirAVL(Tavl * raiz, int flag){
 	else if (flag == 4)
 		printf("\t\tNecessario rotacao dupla a esquerda\n");
 
+	free(fila);
 	printf("\t\tPressione << ENTER >> para continuar...");
 	while(getch() != 13);
 	system ("cls");

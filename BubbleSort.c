@@ -54,4 +54,7 @@ void mainBubbleSort(){
 	system("cls");
 	printf("\t\t\Ordenacao BubbleSort");
 	bubble_sort(vet, max);
+
+	printf("\nPressione < ENTER > para continuar...");
+	while (getch() != 13);
 }

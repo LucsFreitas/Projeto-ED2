@@ -17,7 +17,4 @@ void exibir_pos_ordemArvBin (TNo * raiz);
 void exibir_em_ordemArvBin (TNo * raiz);
 void exibirArvBin(TNo * raiz);
 
-void ajustar_gotoxy_ArvBin(int linha, int coluna, int cont_val);
-void exibirArvBin(TNo * raiz);
-
 int mainArvBin();

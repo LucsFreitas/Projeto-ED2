@@ -40,13 +40,26 @@ void pause (float delay1) {
  
 }
 
-void ajustar_gotoxy(int linha, int coluna, int cont_val){
+void ajustar_gotoxy_composto(int linha, int coluna, int cont_val){
 	if (linha == 5)
 		coluna = 14 + cont_val * 32 + 4;
 	else if (linha == 7)
 		coluna = 5 + cont_val * 16 + 4;
 	else if (linha == 9)
 		coluna = 1 + cont_val * 8 + 4;
+
+	gotoxy(coluna, linha);
+}
+
+void ajustar_gotoxy_simples(int linha, int coluna, int cont_val){
+	if (linha == 5)
+		coluna = 19 + cont_val * 32 + 1;
+	else if (linha == 7)
+		coluna = 11 + cont_val * 16 + 1;
+	else if (linha == 9)
+		coluna = 7 + cont_val * 8 + 1;
+	else if (linha == 11)
+		coluna = 5 + cont_val * 4 + 1;
 
 	gotoxy(coluna, linha);
 }

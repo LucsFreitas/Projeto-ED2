@@ -4,7 +4,7 @@
 #include "QuickSort.h"
 #include "Comum.h"
 
-void exibir(int vet[], int max, int pivo, int flag){
+void exibirQS(int vet[], int max, int pivo, int flag){
 	int i;
 
 	if (flag == 0)
@@ -35,7 +35,7 @@ void quick(int vetor[], int inicio, int fim){
 
 		if (i <= j){
 			aux = vetor[i];
-			exibir(vetor, fim, pivo, 0);
+			exibirQS(vetor, fim, pivo, 0);
 
 			vetor[i] = vetor[j];
 			vetor[j] = aux;
@@ -44,7 +44,7 @@ void quick(int vetor[], int inicio, int fim){
 			flag = 1;
 		}
 		if (flag == 0)
-			exibir(vetor, fim, pivo, 0);
+			exibirQS(vetor, fim, pivo, 0);
 	} while (j > i);
 
 	if (inicio < j){
@@ -65,6 +65,10 @@ int mainQuickSort(){
 	max = criarVetor(vet, 40);
 	system("cls");
 	printf("\t\t\Ordenacao BubbleSort");
+
 	quick(vet, 0, max-1);
-	exibir(vet, max, 0, 1);
+	exibirQS(vet, max, 0, 1);
+
+	printf("\nPressione < ENTER > para continuar...");
+	while (getch() != 13);
 }

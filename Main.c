@@ -5,6 +5,8 @@
 #include "ArvoreRedBlack.h"
 #include "BubbleSort.h"
 #include "Comum.h"
+#include "HashAlfa.h"
+#include "HashInt.h"
 #include "HeapSort.h"
 #include "ListaCircularDupla.h"
 #include "ListaCircularSimples.h"
@@ -40,7 +42,7 @@ int main(){
 			moduloListas();
 			break;
 		case 4:
-			//mainHash();
+			moduloHash();
 			break;
 		case '5':
 				break;
@@ -158,4 +160,33 @@ void moduloListas(){
 			pause(1.5);
 		}
 	} while (op != 5);
+}
+
+void moduloHash(){
+	int op;
+
+	do{
+		system("cls");
+		printf("\tModulo de Hash\n\n");
+		printf("1 - Hashing por Divisao Inteira\n");
+		printf("2 - Hashing por Divisao Inteira para Chaves Alfanumericas\n");
+		printf("3 - Voltar ao Menu Principal\n\n");
+
+		printf("Informe a opcao desejada: ");
+		scanf("%d", &op); fflush(stdin);
+
+		switch(op){
+		case 1:
+			mainHashInt();
+			break;
+		case 2:
+			mainHashAlfa();
+			break;
+		case 3:
+			break;
+		default:
+			printf("\n\tOpcao invalida!");
+			pause(1.5);
+		}
+	} while (op != 3);
 }
