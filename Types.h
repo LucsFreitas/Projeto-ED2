@@ -79,13 +79,13 @@ typedef struct LDE{
 
 //   Lista Circular Simples
 typedef struct LSEC{
-	char nome[50];
+	int nome;
 	struct LSEC * prox;
 }TLSEC;
 
 //   Lista Circular Dupla
 typedef struct LDEC{
-	char n[50];
+	int n;
 	struct LDEC * prox;
 	struct LDEC * ant;
 }TLDEC;

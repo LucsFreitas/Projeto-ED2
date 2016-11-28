@@ -2,13 +2,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <conio.h>
 #include "Types.h"
+#include "Comum.h"
 #include "ListaCircularSimples.h"
 
 int mainCSE(){
 	TLSEC *a = NULL;
-	char op, t, n[50];
+	char op, t;
+	int n;
+
 	do{
+		system("cls");
 		printf("\t\tLista Circular Simplesmente Encadeada\n\n");
 		printf("1 - Inserir valor\n2 - Listar todos\n3 - Remover valor\n");
 		printf("4 - Limpar Lista\n5 - Sair\n");
@@ -16,18 +21,22 @@ int mainCSE(){
 		op = getchar(); fflush(stdin);
 		switch (op){
 		case'1':
-				cadastrarCLSE(&a);
+			cadastrarCLSE(&a);
+			printf("\nPressione < ENTER > para continuar...");
+			while (getch() != 13);
 			break;
 		case '2':
-				listarCLSE(a);
+			listarCLSE(a);
+			printf("\nPressione < ENTER > para continuar...");
+			while (getch() != 13);
 			break;
 		case'3':
-				printf("Informe o valor:\n");
-				gets(n); fflush(stdin);
-				removerCLSE(&a, n);	
+			printf("Informe o valor: ");
+			scanf("%d", &n); fflush(stdin);
+			removerCLSE(&a, n);
 			break;
 		case '4':
-				limparNOCLSE(&a);
+			limparNOCLSE(&a);
 			break;
 		case '5':
 			printf("Programa encerrado!\n");
@@ -40,14 +49,21 @@ int mainCSE(){
 
 void criarNOCLSE(TLSEC ** novo){
 	TLSEC *aux;
+
 	aux = (TLSEC*)malloc(sizeof(TLSEC));
-	printf("Informe o valor:\n");
-	gets(aux->nome); fflush(stdin);
+	do{
+		printf("Valor deve estar entre 0 e 99\n");
+		printf("Informe o valor: ");
+		scanf("%d", &(aux->nome)); fflush(stdin);
+	} while (aux->nome < 0 || aux->nome > 99);
+
 	*novo = aux;
 }
 
 void cadastrarCLSE(TLSEC ** lista){
 	TLSEC *aux, *novo;
+	int qtd = 0;
+
 	aux = *lista;
 	criarNOCLSE(&novo);
 	if (*lista == NULL){
@@ -55,30 +71,86 @@ void cadastrarCLSE(TLSEC ** lista){
 		*lista = novo;
 	}
 	else{
-		while (aux->prox != *lista)
+		qtd++;
+		while (aux->prox != *lista){
 			aux = aux->prox;
+			qtd++;
+			if (qtd == 10){
+				printf("\n\nValor maximo de insercoes atingido");
+				free(novo);
+				return;
+			}
+		}
 		aux->prox = novo;
 		novo->prox = *lista;
 	}
 }
 
+void exibirVoltaS (int coluna, int qtd){
+	int linha = 3;
+
+	printf("%c", 196);
+	
+	coluna += 1 + qtd;
+
+	printf("%c", 217);
+	gotoxy(coluna, linha);
+	printf("%c", 191);
+
+	for (coluna = coluna - 1; coluna > 0; coluna--){
+		gotoxy(coluna, linha);
+		printf("%c", 196);
+	}
+	gotoxy(coluna, linha);
+	printf("%c", 218);
+	linha++;
+	gotoxy(coluna, linha);
+	printf("%c", 192);
+	printf("%c", 196);
+	printf(">");
+}
+
 void listarCLSE(TLSEC * lista){
-	TLSEC *aux;
-	aux = lista;
-	if (aux == NULL)
-		printf("Lista Vazia!\n");
+	TLSEC *aux = lista;
+	int qtd = 0;
+	int coluna = 3;
+	int flag = 0;
+
+	system("cls");
+	printf("\tExibicao Lista Circular Simplesmente Encadeada");
+
+	if (lista == NULL)
+		printf("\n\nLista Vazia");
 	else{
+		gotoxy(coluna, 4);
 		do{
-			printf("|%s|", aux->nome);
+			qtd++;
+			if (flag == 1){			
+				if (aux->nome >= 0 && aux->nome < 10)
+					printf(" %c |0%d|", 196, aux->nome);
+				else
+					printf(" %c |%d|", 196, aux->nome);
+				coluna += 6;
+			}
+			else{
+				if (aux->nome >= 0 && aux->nome < 10)
+					printf("|0%d|", aux->nome);
+				else
+					printf("|%d|", aux->nome);
+				coluna += 3;
+			}
+
+			flag = 1;
 			aux = aux->prox;
 		} while (aux != lista);
+		exibirVoltaS(coluna, qtd);
 	}
 }
 
-TLSEC * consultarCLSE(TLSEC * lista, char nome[]){
+TLSEC * consultarCLSE(TLSEC * lista, int nome){
 	TLSEC * aux = lista;
 	do{
-		if (strcmp(aux->nome, nome) == 0)
+		if (aux->nome == nome)
 			return aux;
 		else
 			aux = aux->prox;
@@ -86,12 +158,12 @@ TLSEC * consultarCLSE(TLSEC * lista, char nome[]){
 	return NULL;
 }
 
-void removerCLSE(TLSEC **lista, char nome[]){
+void removerCLSE(TLSEC **lista, int nome){
 	TLSEC *result, *aux = *lista;
 	if (*lista == NULL)
 		printf("Lista Vazia\n");
 	else if ((*lista)->prox == *lista){
-		if (strcmp((*lista)->nome, nome) == 0){
+		if ((*lista)->nome == nome){
 			free(*lista);
 			*lista = NULL;
 		}
@@ -107,7 +179,7 @@ void removerCLSE(TLSEC **lista, char nome[]){
 			free(result);
 		}
 		else
-			printf("Nome nao encontrado\n");
+			printf("Valor nao encontrado\n");
 	}
 }
 
